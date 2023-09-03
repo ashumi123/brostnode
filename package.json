@@ -1,0 +1,29 @@
+{
+  "name": "project02",
+  "version": "1.0.0",
+  "description": "project02_rajvir",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon ./bin/www.js",
+    "debug": "ndb ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "agora-access-token": "^2.0.4",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "debug": "^4.3.1",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "express-validator": "^6.9.2",
+    "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.11.8",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.9"
+  }
+}
