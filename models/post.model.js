@@ -10,6 +10,12 @@ import { stringType, numberType, emailType, customDefaultStringType, joinSchema,
     imageUrl: String,
 }, { timestamps: { createdAt: 'createdOn', updatedAt: 'updatedOn' } }))
 
+const commentSchema =mongoose.model('comment', new mongoose.Schema({
+    user: joinSchema('Users'),
+    content:String,
+    postId:joinSchema('Post')
+  },{ timestamps: { createdAt: 'createdOn', updatedAt: 'updatedOn' } }))
+
 const createSinglePost = (createObject) => new Post(createObject).save()
 
 const getMultiplePost = (seach) => {
@@ -17,7 +23,7 @@ const getMultiplePost = (seach) => {
         { title: { $regex: seach, $options: 'i' } },
         { content: { $regex: seach, $options: 'i' } }
       ] };
-    const select = 'content title';
+    const select = 'content title imageUrl comments';
     return Post.find(filter).select(select).populate('user')
 }
 

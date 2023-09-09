@@ -49,7 +49,7 @@ router.get('/dashboard', verifyJWTToken, asyncTryCatchMiddleware(adminDashboard)
 router.post('/graph', verifyJWTToken, asyncTryCatchMiddleware(montlyData))
 router.post('/forgot', asyncTryCatchMiddleware(forgotPassword))
 router.post('/reset', asyncTryCatchMiddleware(resetPassword))
-router.post('/createPost',upload1, asyncTryCatchMiddleware(createPost))
+router.post('/createPost', asyncTryCatchMiddleware(createPost))
 router.post('/getPost', asyncTryCatchMiddleware(getPost))
 
 export {

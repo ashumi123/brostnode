@@ -536,9 +536,9 @@ export const resetPassword = async (req, res, next) => {
 export const createPost=async(req, res, next)=>{
     try {
         console.log('req',req.file);
-        const { token,title, content } = req.body;
-        const imageUrl = req.file ? req.file.path : null;
-        console.log('token',imageUrl);
+        const { token,title, content,imageUrl } = req.body;
+        // const imageUrl = req.file ? req.file.path : null;
+        // console.log('token',imageUrl);
         const decrypt = await verifyToken(token);
           const userDetails = await getSingle({ _id: decrypt._id });
           if (userDetails) {
