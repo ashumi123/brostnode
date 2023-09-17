@@ -25,7 +25,8 @@ import {
     forgotPassword,
     resetPassword,
     createPost,
-    getPost
+    getPost,
+    postComment
 } from '../../controller/v1/user.controller.js'
 import {
     login,
@@ -50,6 +51,7 @@ router.post('/graph', verifyJWTToken, asyncTryCatchMiddleware(montlyData))
 router.post('/forgot', asyncTryCatchMiddleware(forgotPassword))
 router.post('/reset', asyncTryCatchMiddleware(resetPassword))
 router.post('/createPost', asyncTryCatchMiddleware(createPost))
+router.post('/postComment', asyncTryCatchMiddleware(postComment))
 router.post('/getPost', asyncTryCatchMiddleware(getPost))
 
 export {

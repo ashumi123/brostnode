@@ -31,7 +31,7 @@ import { UserKeys, RatingKeys } from '../../helpers/keyConstant.js';
 // import { generateAgoraToken } from '../../helpers/agoraHelper.js';
 import { mailSender } from '../../helpers/mailHelper.js';
 import multer from 'multer';
-import { createSinglePost, getMultiplePost } from '../../models/post.model.js';
+import { createSingleComment, createSinglePost, getComments, getMultiplePost } from '../../models/post.model.js';
 import express from 'express';
 
 const app = express();
@@ -135,7 +135,8 @@ export const userLogin = async (req, res, next) => {
             return res.status(200).json(createSuccessResponse(msgConstant.loginSuccessfully, {
                 token,
                 isAstrologer: checkUser && checkUser.type === 'astrologer' ? true : false,
-                userId: checkUser._id
+                userId: checkUser._id,
+                user:checkUser
             }))
         } else {
             return res.status(400).json(createErrorResponse(msgConstant.passwordWrong, null))
@@ -558,12 +559,39 @@ export const createPost=async(req, res, next)=>{
         return res.status(500).json(createErrorResponse('An error occurred', null));
       }
 }
+export const postComment=async(req, res, next)=>{
+    try {
+        console.log('req',req.body);
+        // const imageUrl = req.file ? req.file.path : null;
+        // console.log('token',imageUrl);
+        //   const userDetails = await getSingle({ _id: decrypt._id });
+        //   if (userDetails) {
+            // Create a new post
+            await createSingleComment(req.body)
+    
+            return res.status(201).json(createSuccessResponse('Comment added successfully.', null));
+        //   } 
+        //   else {
+        //     return res.status(400).json(createErrorResponse('post not found', null));
+        //   }
+        // } 
+        // else {
+        //   return res.status(403).json(createErrorResponse('Unauthorized', null));
+        // }
+      } catch (error) {
+        console.error('Error creating post:', error);
+        return res.status(500).json(createErrorResponse('An error occurred', null));
+      }
+}
 export const getPost=async(req,res)=>{
     try {
        
             // Create a new post
             let data=await getMultiplePost(req.body.search)
-    
+            for(let i=0;i<=data.length-1;i++){
+                let com=await getComments(data[i]._id)
+                data[i]= {data:data[i],'comment':com}
+            }
             return res.status(201).json(createSuccessResponse('Post created successfully', data));
           
         // } 

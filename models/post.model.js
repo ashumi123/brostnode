@@ -17,17 +17,25 @@ const commentSchema =mongoose.model('comment', new mongoose.Schema({
   },{ timestamps: { createdAt: 'createdOn', updatedAt: 'updatedOn' } }))
 
 const createSinglePost = (createObject) => new Post(createObject).save()
+const createSingleComment = (createObject) => new commentSchema(createObject).save()
 
 const getMultiplePost = (seach) => {
     const filter = {  $or: [
         { title: { $regex: seach, $options: 'i' } },
         { content: { $regex: seach, $options: 'i' } }
       ] };
-    const select = 'content title imageUrl comments';
+    const select = 'content title imageUrl comments createdAt ';
     return Post.find(filter).select(select).populate('user')
+}
+const getComments = (seach) => {
+   
+    const select = 'user content postId createdAt';
+    return commentSchema.find({postId:seach}).select(select).populate('user')
 }
 
 export {
     createSinglePost,
-    getMultiplePost
+    getMultiplePost,
+    createSingleComment,
+    getComments
 }
