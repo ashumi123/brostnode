@@ -41,11 +41,11 @@ const onListening = () => {
 
 const port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
-const corsOptions = {
-  origin: 'http://192.168.0.101:3001', // Replace with your React.js app's origin
-  methods: ['GET', 'POST'],
-};
-app.use(cors(corsOptions))
+// const corsOptions = {
+//   origin: 'http://192.168.0.101:3001', // Replace with your React.js app's origin
+//   methods: ['GET', 'POST'],
+// };
+// app.use(cors(corsOptions))
 
 console.log('server listening on port :::: ', port)
 
