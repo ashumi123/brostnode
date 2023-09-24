@@ -14,6 +14,8 @@ const UserSchema = mongoose.model('Users', new mongoose.Schema({
     countryCode: customDefaultStringType('+91'),
     profile: stringType,
     deviceToken: stringType,
+    about:stringType,
+    intrest:stringType,
     agoraToken: stringType,
     deviceType: {
         type: String,
@@ -23,7 +25,8 @@ const UserSchema = mongoose.model('Users', new mongoose.Schema({
     category: joinSchema('Categories'),
     expireToken: numberType,
     isVerified: booleanType,
-    isBlock: booleanType
+    isBlock: booleanType,
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }]
 }, { timestamps: { createdAt: 'createdOn', updatedAt: 'updatedOn' } }))
 
 const createSingle = (createObject) => new UserSchema(createObject).save()

@@ -31,7 +31,7 @@ import { UserKeys, RatingKeys } from '../../helpers/keyConstant.js';
 // import { generateAgoraToken } from '../../helpers/agoraHelper.js';
 import { mailSender } from '../../helpers/mailHelper.js';
 import multer from 'multer';
-import { createSingleComment, createSinglePost, getComments, getMultiplePost } from '../../models/post.model.js';
+import { createSingleComment, createSinglePost, getComments, getMultiplePost, getMultiplePostSingleUser } from '../../models/post.model.js';
 import express from 'express';
 
 const app = express();
@@ -568,7 +568,11 @@ export const postComment=async(req, res, next)=>{
         //   if (userDetails) {
             // Create a new post
             await createSingleComment(req.body)
-    
+            // wss.clients.forEach((client) => {
+            //     if (client.readyState === WebSocket.OPEN) {
+            //       client.send(`Server API: ${req.body}`);
+            //     }
+            //   });
             return res.status(201).json(createSuccessResponse('Comment added successfully.', null));
         //   } 
         //   else {
@@ -585,14 +589,29 @@ export const postComment=async(req, res, next)=>{
 }
 export const getPost=async(req,res)=>{
     try {
-       
-            // Create a new post
-            let data=await getMultiplePost(req.body.search)
+        let userDetails
+        const token=req.headers['x-access-token'].split(' ')[1]
+        const decrypt = await verifyToken(token);
+                  let userDetails1 = await getSingle({ _id: decrypt._id });
+        if(req?.body?.type=='follow'){
+//             const token=req.headers['x-access-token'].split(' ')[1]
+//    const decrypt = await verifyToken(token);
+             userDetails = await getSingle({ _id: decrypt._id });
+        }
+       let data
+           if(req?.body?.userId){
+            data=await getMultiplePostSingleUser(req?.body?.userId)
+           }
+           else{
+
+               data=await getMultiplePost(req.body.search,userDetails)
+           }
             for(let i=0;i<=data.length-1;i++){
                 let com=await getComments(data[i]._id)
                 data[i]= {data:data[i],'comment':com}
             }
-            return res.status(201).json(createSuccessResponse('Post created successfully', data));
+            
+            return res.status(201).json(createSuccessResponse('Post created successfully', data,userDetails1));
           
         // } 
         // else {
@@ -602,4 +621,66 @@ export const getPost=async(req,res)=>{
         console.error('Error creating post:', error);
         return res.status(500).json(createErrorResponse('An error occurred', null));
       }
+}
+export const followUnfollow=async(req,res)=>{
+    console.log('req.headers',req.headers['x-access-token']);
+   const token=req.headers['x-access-token'].split(' ')[1]
+   console.log('req.params.userIdToFollow',req.query.userIdToUnfollow);
+   const decrypt = await verifyToken(token);
+   const userDetails = await getSingle({ _id: decrypt._id });
+    const currentUserId = userDetails; // Assuming you have authentication in place
+    const userIdToFollow = req.query.userIdToUnfollow;
+  
+    try {
+      const userToFollow = await  getSingle({ _id: currentUserId })
+      if (!userToFollow) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      
+  
+      // Check if the current user is already following the target user
+      const isAlreadyFollowing = userToFollow.followers.includes(userIdToFollow);
+  
+      if (!isAlreadyFollowing) {
+        // Add the current user to the target user's followers
+        userToFollow.followers.push(userIdToFollow);
+        await userToFollow.save();
+        res.status(200).json({ message: 'User followed successfully' });
+      } else {
+        
+        console.log('userToFollow.followers',userToFollow.followers);
+        let ind= userToFollow.followers.findIndex(x=>x==userIdToFollow)
+        userToFollow.followers.splice(ind,1)
+        await userToFollow.save();
+        res.status(200).json({ message: 'User unfollow successfully' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+}
+export const updateUser=async(req,res)=>{
+    console.log('req.headers',req.headers['x-access-token']);
+   const token=req.headers['x-access-token'].split(' ')[1]
+   ;
+   const decrypt = await verifyToken(token);
+   const userDetails = await getSingle({ _id: decrypt._id });
+    const currentUserId = userDetails; // Assuming you have authentication in place
+    
+  
+    try {
+      const updateUser= await updateSingle({ _id: decrypt._id }, // Filter to find the user by ID
+      {
+        $set: {
+          about: req.body.about, // Set the new 'about' value
+          intrest: req.body.intrested, // Set the new 'intrest' value
+        },
+      },)
+        
+        res.status(200).json({ message: 'User updated successfully',data:updateUser });
+     
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
 }

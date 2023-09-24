@@ -26,7 +26,9 @@ import {
     resetPassword,
     createPost,
     getPost,
-    postComment
+    postComment,
+    followUnfollow,
+    updateUser
 } from '../../controller/v1/user.controller.js'
 import {
     login,
@@ -53,6 +55,8 @@ router.post('/reset', asyncTryCatchMiddleware(resetPassword))
 router.post('/createPost', asyncTryCatchMiddleware(createPost))
 router.post('/postComment', asyncTryCatchMiddleware(postComment))
 router.post('/getPost', asyncTryCatchMiddleware(getPost))
+router.post('/followUnfollow', asyncTryCatchMiddleware(followUnfollow))
+router.post('/update', asyncTryCatchMiddleware(updateUser))
 
 export {
     router
