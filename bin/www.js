@@ -43,7 +43,10 @@ const port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 const corsOptions = {
   origin: 'http://192.168.0.101:3001', // Replace with your React.js app's origin
-  methods: ['GET', 'POST'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Enable cookies and authentication headers if needed
+  optionsSuccessStatus: 204, // Set the response status for preflight requests
+
 };
 app.use(cors(corsOptions))
 
