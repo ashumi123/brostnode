@@ -36,7 +36,7 @@ const getMultiplePost = (seach,userId) => {
       return Post.find({ user: { $in: usersIFollow }}).select(select).populate('user')
     }
     else{
-    return Post.find(filter).select(select).populate('user')
+    return Post.find(filter).select(select).populate('user').sort(-1)
     }
 }
 const getComments = (seach) => {

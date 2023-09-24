@@ -33,7 +33,6 @@ import { mailSender } from '../../helpers/mailHelper.js';
 import multer from 'multer';
 import { createSingleComment, createSinglePost, getComments, getMultiplePost, getMultiplePostSingleUser } from '../../models/post.model.js';
 import express from 'express';
-
 const app = express();
 
 //200-299 -->220
@@ -573,6 +572,8 @@ export const postComment=async(req, res, next)=>{
             //       client.send(`Server API: ${req.body}`);
             //     }
             //   });
+
+            // sendMessage(req.body)
             return res.status(201).json(createSuccessResponse('Comment added successfully.', null));
         //   } 
         //   else {
