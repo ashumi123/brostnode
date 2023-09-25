@@ -40,9 +40,9 @@ const onListening = () => {
 }
 
 const port = normalizePort(process.env.PORT || '4000');
-app.set('port', port);
+// app.set('port', port);
 const corsOptions = {
-  origin: '*',
+  origin: 'https://clubboxx.in',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
