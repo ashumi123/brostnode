@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
     console.log('Received message:', message);
 
     // Broadcast the message to the user's room
-    io.to(userId).emit('message', message);
+    
   });
 
   // Event listener for when a user disconnects
@@ -82,3 +82,7 @@ io.on('connection', (socket) => {
     console.log('A user disconnected');
   });
 });
+
+export const sendMsg=(message)=>{
+  io.emit('message', message);
+}

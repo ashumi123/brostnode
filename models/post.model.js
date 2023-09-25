@@ -44,6 +44,11 @@ const getComments = (seach) => {
     const select = 'user content postId createdAt';
     return commentSchema.find({postId:seach}).select(select).populate('user')
 }
+const getSingleComment = (seach) => {
+   
+    const select = 'user content postId createdAt';
+    return commentSchema.findOne({_id:seach}).select(select).populate('user')
+}
 
 const getMultiplePostSingleUser = (seach) => {
   
@@ -57,5 +62,6 @@ export {
     getMultiplePost,
     createSingleComment,
     getComments,
-    getMultiplePostSingleUser
+    getMultiplePostSingleUser,
+    getSingleComment
 }

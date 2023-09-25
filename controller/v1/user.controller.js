@@ -31,8 +31,9 @@ import { UserKeys, RatingKeys } from '../../helpers/keyConstant.js';
 // import { generateAgoraToken } from '../../helpers/agoraHelper.js';
 import { mailSender } from '../../helpers/mailHelper.js';
 import multer from 'multer';
-import { createSingleComment, createSinglePost, getComments, getMultiplePost, getMultiplePostSingleUser } from '../../models/post.model.js';
+import { createSingleComment, createSinglePost, getComments, getMultiplePost, getMultiplePostSingleUser, getSingleComment } from '../../models/post.model.js';
 import express from 'express';
+import { sendMsg } from '../../bin/www.js';
 const app = express();
 
 //200-299 -->220
@@ -566,14 +567,15 @@ export const postComment=async(req, res, next)=>{
         //   const userDetails = await getSingle({ _id: decrypt._id });
         //   if (userDetails) {
             // Create a new post
-            await createSingleComment(req.body)
+           let data= await createSingleComment(req.body)
             // wss.clients.forEach((client) => {
             //     if (client.readyState === WebSocket.OPEN) {
             //       client.send(`Server API: ${req.body}`);
             //     }
             //   });
+            const singleComment=await getSingleComment(data._id)
 
-            // sendMessage(req.body)
+            sendMsg(singleComment)
             return res.status(201).json(createSuccessResponse('Comment added successfully.', null));
         //   } 
         //   else {
