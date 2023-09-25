@@ -42,7 +42,7 @@ const onListening = () => {
 const port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 const corsOptions = {
-  origin: 'https://clubboxx.in',
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
