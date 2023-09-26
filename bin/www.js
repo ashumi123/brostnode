@@ -44,11 +44,20 @@ const port = normalizePort(process.env.PORT || '4000');
 const corsOptions = {
   origin: 'https://clubboxx.in/',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204,
+  credentials: true
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  // Set the 'Access-Control-Allow-Origin' header to allow requests from 'https://clubboxx.in'
+  res.setHeader('Access-Control-Allow-Origin', 'https://clubboxx.in');
+  
+  // Set the 'Content-Type' header to indicate that the response is in JSON format
+  res.setHeader('Content-Type', 'application/json');
+
+  // Continue processing the request
+  next();
+});
 
 console.log('server listening on port :::: ', port)
 
