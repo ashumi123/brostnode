@@ -22,7 +22,7 @@ const hashPassword = async password => await bcrypt.hash(password, 6);
 const comparePassword = async (password1, password2) => await bcrypt.compare(password1, password2);
 
 const customCORSHandler = (request, response, next) => {
-    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Origin", "https://clubboxx.in");
     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, On-behalf-of, x-sg-elas-acl");
     response.header("Access-Control-Allow-Credentials", true);
     response.header("access-control-allow-methods", "*");
