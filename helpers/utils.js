@@ -29,7 +29,7 @@ const customCORSHandler = (request, response, next) => {
     response.setHeader('Access-Control-Allow-Origin', 'https://clubboxx.in');
   
   // Set the 'Content-Type' header to indicate that the response is in JSON format
-  res.setHeader('Content-Type', 'application/json');
+  response.setHeader('Content-Type', 'application/json');
     next()
 }
 
