@@ -13,7 +13,7 @@ const corsOptions = {
   };
 app.use(cors(corsOptions));
 
-// app.use(customCORSHandler);
+app.use(customCORSHandler);
 
 // app.use(logger('dev'));
 app.use(express.json());
