@@ -48,7 +48,7 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 console.log('server listening on port :::: ', port)
 
