@@ -6,9 +6,14 @@ import router from './routers/v1/index.js'
 import cors from 'cors';
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+    origin: 'https://clubboxx.in/',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+  };
+app.use(cors(corsOptions));
 
-app.use(customCORSHandler);
+// app.use(customCORSHandler);
 
 // app.use(logger('dev'));
 app.use(express.json());
