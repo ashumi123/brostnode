@@ -611,7 +611,10 @@ export const getPost=async(req,res)=>{
            }
             for(let i=0;i<=data.length-1;i++){
                 let com=await getComments(data[i]._id)
-                data[i]= {data:data[i],'comment':com}
+                const uniqueUsers = new Set(com.map(comment => comment.user._id));
+                const userCount = uniqueUsers.size;
+                data[i]= {data:data[i],'comment':com,members:userCount}
+
             }
             
             return res.status(201).json(createSuccessResponse('Post created successfully', data,userDetails1));

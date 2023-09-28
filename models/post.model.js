@@ -41,7 +41,7 @@ const getMultiplePost = (seach,userId) => {
 }
 const getComments = (seach) => {
    
-    const select = 'user content postId createdAt';
+    const select = 'user content postId createdAt createdOn';
     return commentSchema.find({postId:seach}).select(select).populate('user')
 }
 const getSingleComment = (seach) => {
