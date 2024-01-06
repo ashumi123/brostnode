@@ -602,8 +602,8 @@ export const getPost=async(req,res)=>{
              userDetails = await getSingle({ _id: decrypt._id });
         }
        let data
-           if(req?.body?.userId){
-            data=await getMultiplePostSingleUser(req?.body?.userId)
+           if(req.body.userId){
+            data=await getMultiplePostSingleUser(req.body.userId)
            }
            else{
 
