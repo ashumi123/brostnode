@@ -596,7 +596,7 @@ export const getPost=async(req,res)=>{
         const token=req.headers['x-access-token'].split(' ')[1]
         const decrypt = await verifyToken(token);
                   let userDetails1 = await getSingle({ _id: decrypt._id });
-        if(req?.body?.type=='follow'){
+        if(req.body.type=='follow'){
 //             const token=req.headers['x-access-token'].split(' ')[1]
 //    const decrypt = await verifyToken(token);
              userDetails = await getSingle({ _id: decrypt._id });
